@@ -34,6 +34,12 @@ class Home extends StatelessWidget {
     ),
   ];
 
+  // String titleInput;
+  // String amountInput;
+
+  final titleController = TextEditingController();
+  final amountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,17 +74,31 @@ class Home extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   TextField(
+                    controller: titleController,
                     decoration: InputDecoration(
                       labelText: 'Title',
                     ),
+                    // onChanged: (value) {
+                    //   titleInput = value;
+                    // },
                   ),
                   TextField(
+                    controller: amountController,
                     decoration: InputDecoration(
                       labelText: 'Amount',
                     ),
+                    // onChanged: (value) {
+                    //   amountInput = value;
+                    // },
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // print('$titleInput | $amountInput');
+                      print(
+                          '${amountController.text} | ${titleController.text}');
+                      amountController.clear();
+                      titleController.clear();
+                    },
                     child: Text(
                       'Add Transaction',
                       style: TextStyle(
