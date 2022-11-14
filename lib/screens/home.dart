@@ -1,15 +1,85 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:personal_expense/widgets/user_transactions.dart';
+import 'package:personal_expense/models/transaction.dart';
+//import 'package:personal_expense/widgets/user_transactions.dart';
 import '../widgets/new_transaction.dart';
 import '../widgets/transaction_list.dart';
 
-class Home extends StatelessWidget {
-  //const Home({super.key});
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
 
-  // String titleInput;
-  // String amountInput;
+class _HomeState extends State<Home> {
+  void _startAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return NewTransaction(_addNewTransaction);
+        });
+  }
+
+  final List<Transaction> _userTransactions = [
+    Transaction(
+      id: 't1',
+      title: 'New Shoes',
+      amount: 70.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't2',
+      title: 'New Watch',
+      amount: 75.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't3',
+      title: 'New Jacket',
+      amount: 80.11,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'New Glass',
+      amount: 95.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't5',
+      title: 'New Phone',
+      amount: 33.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't6',
+      title: 'New Neckband',
+      amount: 25.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      title: 'New Car',
+      amount: 56.01,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't8',
+      title: 'New Suit',
+      amount: 195.01,
+      date: DateTime.now(),
+    ),
+  ];
+
+  void _addNewTransaction(String title, double amount) {
+    final newTx = Transaction(
+      id: DateTime.now().toString(),
+      title: title,
+      amount: amount,
+      date: DateTime.now(),
+    );
+    setState(() {
+      _userTransactions.add(newTx);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +87,11 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Personal Expense'),
+        actions: [
+          IconButton(
+              onPressed: () => _startAddNewTransaction(context),
+              icon: Icon(Icons.add))
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -38,9 +113,16 @@ class Home extends StatelessWidget {
                 ),
               ),
             ),
-            UserTransactions(),
+            TransactionList(
+              transactions: _userTransactions,
+            ),
           ],
         ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => _startAddNewTransaction(context),
       ),
     );
   }

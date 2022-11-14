@@ -1,17 +1,31 @@
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 
-class NewTransaction extends StatelessWidget {
-  //const NewTransaction({Key key}) : super(key: key);
-
-  final titleController = TextEditingController();
-  final amountController = TextEditingController();
-
+class NewTransaction extends StatefulWidget {
   final Function addTx;
   NewTransaction(this.addTx);
+
+  @override
+  State<NewTransaction> createState() => _NewTransactionState();
+}
+
+class _NewTransactionState extends State<NewTransaction> {
+  //const NewTransaction({Key key}) : super(key: key);
+  final titleController = TextEditingController();
+
+  final amountController = TextEditingController();
+
+  void submitData() {
+    final enteredTitle = titleController.text;
+    final enteredAmount = double.parse(amountController.text);
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+      return;
+    }
+    widget.addTx(enteredTitle, enteredAmount);
+    amountController.clear();
+    titleController.clear();
+    Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +41,7 @@ class NewTransaction extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Title',
               ),
+              onSubmitted: (_) => submitData(),
               // onChanged: (value) {
               //   titleInput = value;
               // },
@@ -36,18 +51,19 @@ class NewTransaction extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: 'Amount',
               ),
+              keyboardType:
+                  TextInputType.numberWithOptions(signed: true, decimal: true),
+
+              onSubmitted: (_) => submitData(),
               // onChanged: (value) {
               //   amountInput = value;
               // },
             ),
             TextButton(
               onPressed: () {
-                addTx(
-                    titleController.text, double.parse(amountController.text));
+                submitData();
                 // print('$titleInput | $amountInput');
-                print('${amountController.text} | ${titleController.text}');
-                amountController.clear();
-                titleController.clear();
+                //print('${amountController.text} | ${titleController.text}');
               },
               child: Text(
                 'Add Transaction',
