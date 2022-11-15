@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:personal_expense/models/transaction.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;

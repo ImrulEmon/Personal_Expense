@@ -14,9 +14,14 @@ class MyApp extends StatelessWidget {
       title: 'Personal Expenses',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.grey,
-        fontFamily: 'Ubuntu',
-      ),
+          primarySwatch: Colors.green,
+          fontFamily: 'Ubuntu',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                headline6: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.0,
+                ),
+              )),
       home: Home(),
     );
   }

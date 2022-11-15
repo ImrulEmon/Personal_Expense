@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:personal_expense/models/transaction.dart';
+import '../models/transaction.dart';
+import '../widgets/chart.dart';
 //import 'package:personal_expense/widgets/user_transactions.dart';
 import '../widgets/new_transaction.dart';
 import '../widgets/transaction_list.dart';
@@ -14,7 +15,11 @@ class _HomeState extends State<Home> {
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
-          return NewTransaction(_addNewTransaction);
+          return GestureDetector(
+            onTap: () {},
+            child: NewTransaction(_addNewTransaction),
+            behavior: HitTestBehavior.opaque,
+          );
         });
   }
 
@@ -81,6 +86,16 @@ class _HomeState extends State<Home> {
     });
   }
 
+  List<Transaction> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,21 +113,7 @@ class _HomeState extends State<Home> {
           //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Container(
-              height: 100.0,
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue[300],
-                child: Text(
-                  'CHART !',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  //textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+            Chart(_recentTransactions),
             TransactionList(
               transactions: _userTransactions,
             ),
