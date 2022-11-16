@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.green,
+        //errorColor: Colors.red,
         fontFamily: 'Ubuntu',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(

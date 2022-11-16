@@ -96,6 +96,14 @@ class _HomeState extends State<Home> {
     }).toList();
   }
 
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) {
+        return tx.id == id;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,6 +124,7 @@ class _HomeState extends State<Home> {
             Chart(_recentTransactions),
             TransactionList(
               transactions: _userTransactions,
+              deleteTx: _deleteTransaction,
             ),
           ],
         ),
